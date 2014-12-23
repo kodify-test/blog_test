@@ -10,4 +10,32 @@
             {{ post.content }}
         </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Comments
+        </div>
+        <div class="panel-body">
+            {% if message is defined %}
+                <div class="bg-primary">{{ message }}</div>
+            {% endif %}
+            <div class="form">
+                {{ form_start(form_comment) }}
+                {{ form_widget(form_comment) }}
+                {{ form_end(form_comment) }}
+            </div>
+        </div>
+        {% for comment in comments_pagination %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Author: {{ comment.author }}
+                </div>
+                <div class="panel-body">
+                    {{ comment.comment }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="navigation">
+            {{ knp_pagination_render(comments_pagination) }}
+        </div>
+    </div>
 {% endblock %}
