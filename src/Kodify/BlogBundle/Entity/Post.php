@@ -47,6 +47,13 @@ class Post extends AbstractBaseEntity
     protected $author;
 
     /**
+     *
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $comments;
+
+    /**
      * Get id
      *
      * @return integer
@@ -123,5 +130,46 @@ class Post extends AbstractBaseEntity
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Kodify\BlogBundle\Entity\Comment $comments
+     * @return Post
+     */
+    public function addComment(\Kodify\BlogBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Kodify\BlogBundle\Entity\Comment $comments
+     */
+    public function removeComment(\Kodify\BlogBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
